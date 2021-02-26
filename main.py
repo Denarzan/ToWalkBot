@@ -109,4 +109,5 @@ def delete_places(message):
     bot.send_message(message.from_user.id, "All your places has been deleted.")
 
 
-bot.polling()
+if __name__ == '__main__':
+    bot.polling()
