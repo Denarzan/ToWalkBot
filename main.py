@@ -6,10 +6,6 @@ bot = telebot.TeleBot(token)
 
 
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="010701",
-    database='mydatabase'
 )
 mycursor = mydb.cursor()
 
