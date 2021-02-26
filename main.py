@@ -92,7 +92,7 @@ Location:
                 """)
             bot.send_location(message.from_user.id, lat, lon)
     except NameError:
-        bot.send_message(message.from_user.id, 'No any places')
+        bot.send_message(message.from_user.id, 'No any places.')
 
 
 @bot.message_handler(commands=['reset'])
@@ -100,7 +100,7 @@ def delete_places(message):
     sql = "DELETE FROM users WHERE user_id={}".format(message.chat.id)
     mycursor.execute(sql)
     mydb.commit()
-    bot.send_message(message.from_user.id, "All your places has been deleted")
+    bot.send_message(message.from_user.id, "All your places has been deleted.")
 
 
 bot.polling()
