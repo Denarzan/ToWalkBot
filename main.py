@@ -13,6 +13,12 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 
+mycursor.execute("CREATE DATABASE newdatabase")
+mycursor.execute("CREATE TABLE users (user_id VARCHAR(255), name VARCHAR(255), "
+                 "description VARCHAR (255), location VARCHAR (255))")
+
+mycursor.execute("USE mydatabase;")
+
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
