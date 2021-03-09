@@ -4,36 +4,33 @@ import mysql.connector
 token = '1662333710:AAGThQhn53n16CqBHF3kK9byaJwxK0avCr0'
 bot = telebot.TeleBot(token)
 
-
 mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="010701",
+    database='mydatabase',
 )
 mycursor = mydb.cursor()
-
-mycursor.execute("CREATE DATABASE newdatabase")
-mycursor.execute("CREATE TABLE users (user_id VARCHAR(255), name VARCHAR(255), "
-                 "description VARCHAR (255), location VARCHAR (255))")
-
-mycursor.execute("USE mydatabase;")
 
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.send_message(message.chat.id, "Hello! I can add some places you want to visit later. Write /add to add new "
-                                      "place, /list to see your 10 last places and /reset to delete all your places! ")
+                                      "place, /list to see your 10 last places and /reset to delete all your places!")
 
 
 @bot.message_handler(commands=['add'])
 def handle_name(message):
     def get_confirmation(message, name, description, full_location_data):
         if 'yes' in message.text.lower():
-            bot.send_message(message.from_user.id, 'Added')
+            bot.send_message(message.from_user.id, 'Added.')
             sql = "INSERT INTO users (user_id, description, photo, location) VALUES (%s, %s, %s, %s)"
             val = (message.chat.id, name, description, full_location_data)
             mycursor.execute(sql, val)
 
             mydb.commit()
         elif 'no' in message.text.lower():
-            bot.send_message(message.from_user.id, 'Not added')
+            bot.send_message(message.from_user.id, 'Not added.')
         else:
             bot.register_next_step_handler(message, lambda message:
             get_confirmation(message, name, description, full_location_data))
@@ -58,7 +55,7 @@ def handle_name(message):
         elif description == '/reset':
             delete_places(message)
         else:
-            bot.send_message(message.from_user.id, 'Send a location')
+            bot.send_message(message.from_user.id, 'Send a location.')
             bot.register_next_step_handler(message, lambda message: get_location(message, name, description))
 
     def get_name(message):
@@ -68,7 +65,7 @@ def handle_name(message):
         elif name == '/reset':
             delete_places(message)
         else:
-            bot.send_message(message.from_user.id, 'Send a description of your place')
+            bot.send_message(message.from_user.id, 'Send a description of your place.')
             bot.register_next_step_handler(message, lambda message: get_description(message, name))
 
     bot.send_message(message.from_user.id, "What is the name of your establishment?")
